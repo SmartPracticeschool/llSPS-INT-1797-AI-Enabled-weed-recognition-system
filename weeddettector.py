@@ -26,6 +26,27 @@ weed.add(Dense(output_dim=6,activation='sigmoid',init='random_uniform'))
 weed.compile(optimizer='adam',loss='categorical_crossentropy',metrics=['accuracy'])
 print(x_train.class_indices)
 weed.fit_generator(x_train,samples_per_epoch = 15326,epochs=10,validation_data=x_test,nb_val_samples=337)
-weed.save('weedmodel.h5')
+weed.save('model1.h5')
 
-
+from keras.models import load_model
+import numpy as np
+import cv2
+weed=load_model('model1.h5')
+weed.compile(optimizer='adam',loss='categorical_crossentropy',metrics=['accuracy'])
+from skimage.transform import resize
+def detect(frame):
+    try:
+        im=resize(frame,(64,64))
+        im=np.expand_dims(im,axis=0)
+        if(np.max(im)>1):
+            im=im/255.0
+        pred=weed.predict(im)
+        print(pred)
+        pred_cl=weed.predict_classes(im)
+        print(pred_cl)
+    except AttributeError:
+        print('shape not found')
+        
+        
+frame=cv2.imread('1147.tif')
+data=detect(frame)
