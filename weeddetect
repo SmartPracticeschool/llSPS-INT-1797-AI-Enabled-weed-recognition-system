@@ -1,0 +1,219 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "Using TensorFlow backend.\n"
+     ]
+    }
+   ],
+   "source": [
+    "from keras.preprocessing.image import ImageDataGenerator"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "train_data=ImageDataGenerator(rescale=1./255,shear_range=0.2,zoom_range=0.2,horizontal_flip=True)\n",
+    "test_data=ImageDataGenerator(rescale=1./255)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Found 15326 images belonging to 6 classes.\n",
+      "Found 337 images belonging to 6 classes.\n"
+     ]
+    }
+   ],
+   "source": [
+    "x_train=train_data.flow_from_directory(r'E:\\datasets\\trainset',target_size=(64,64),batch_size=32,class_mode='categorical')\n",
+    "x_test=test_data.flow_from_directory(r'E:\\datasets\\testset',target_size=(64,64),batch_size=32,class_mode='categorical')\n",
+    "from keras.models import Sequential"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from keras.layers import Dense\n",
+    "from keras.layers import Conv2D\n",
+    "from keras.layers import MaxPooling2D\n",
+    "from keras.layers import Flatten\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "C:\\Users\\sys\\Anaconda3\\lib\\site-packages\\ipykernel_launcher.py:2: UserWarning: Update your `Conv2D` call to the Keras 2 API: `Conv2D(32, (3, 3), input_shape=(64, 64, 3..., activation=\"relu\")`\n",
+      "  \n"
+     ]
+    }
+   ],
+   "source": [
+    "weed=Sequential()\n",
+    "weed.add(Conv2D(32,3,3,input_shape=(64,64,3),activation='relu'))\n",
+    "weed.add(MaxPooling2D(pool_size=(2,2)))\n",
+    "weed.add(Flatten())\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "C:\\Users\\sys\\Anaconda3\\lib\\site-packages\\ipykernel_launcher.py:1: UserWarning: Update your `Dense` call to the Keras 2 API: `Dense(activation=\"relu\", units=128, kernel_initializer=\"random_uniform\")`\n",
+      "  \"\"\"Entry point for launching an IPython kernel.\n",
+      "C:\\Users\\sys\\Anaconda3\\lib\\site-packages\\ipykernel_launcher.py:2: UserWarning: Update your `Dense` call to the Keras 2 API: `Dense(activation=\"relu\", units=120, kernel_initializer=\"random_uniform\")`\n",
+      "  \n",
+      "C:\\Users\\sys\\Anaconda3\\lib\\site-packages\\ipykernel_launcher.py:3: UserWarning: Update your `Dense` call to the Keras 2 API: `Dense(activation=\"relu\", units=128, kernel_initializer=\"random_uniform\")`\n",
+      "  This is separate from the ipykernel package so we can avoid doing imports until\n",
+      "C:\\Users\\sys\\Anaconda3\\lib\\site-packages\\ipykernel_launcher.py:4: UserWarning: Update your `Dense` call to the Keras 2 API: `Dense(activation=\"sigmoid\", units=6, kernel_initializer=\"random_uniform\")`\n",
+      "  after removing the cwd from sys.path.\n"
+     ]
+    }
+   ],
+   "source": [
+    "\n",
+    "weed.add(Dense(output_dim=128,activation='relu',init='random_uniform'))\n",
+    "weed.add(Dense(output_dim=120,activation='relu',init='random_uniform'))\n",
+    "weed.add(Dense(output_dim=128,activation='relu',init='random_uniform'))\n",
+    "weed.add(Dense(output_dim=6,activation='sigmoid',init='random_uniform'))\n",
+    "weed.compile(optimizer='adam',loss='categorical_crossentropy',metrics=['accuracy'])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "{'broadleaf weed': 0, 'grass': 1, 'sesame crop': 2, 'soil': 3, 'soyabean crop': 4, 'weeds': 5}\n",
+      "WARNING:tensorflow:From C:\\Users\\sys\\Anaconda3\\lib\\site-packages\\tensorflow\\python\\ops\\math_grad.py:1250: add_dispatch_support.<locals>.wrapper (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.\n",
+      "Instructions for updating:\n",
+      "Use tf.where in 2.0, which has the same broadcast rule as np.where\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "C:\\Users\\sys\\Anaconda3\\lib\\site-packages\\ipykernel_launcher.py:2: UserWarning: The semantics of the Keras 2 argument `steps_per_epoch` is not the same as the Keras 1 argument `samples_per_epoch`. `steps_per_epoch` is the number of batches to draw from the generator at each epoch. Basically steps_per_epoch = samples_per_epoch/batch_size. Similarly `nb_val_samples`->`validation_steps` and `val_samples`->`steps` arguments have changed. Update your method calls accordingly.\n",
+      "  \n",
+      "C:\\Users\\sys\\Anaconda3\\lib\\site-packages\\ipykernel_launcher.py:2: UserWarning: Update your `fit_generator` call to the Keras 2 API: `fit_generator(<keras.pre..., epochs=10, validation_data=<keras.pre..., steps_per_epoch=478, validation_steps=337)`\n",
+      "  \n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "WARNING:tensorflow:From C:\\Users\\sys\\Anaconda3\\lib\\site-packages\\keras\\backend\\tensorflow_backend.py:422: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.\n",
+      "\n",
+      "Epoch 1/10\n",
+      "478/478 [==============================] - 378s 791ms/step - loss: 0.6936 - accuracy: 0.7177 - val_loss: 0.5083 - val_accuracy: 0.6791\n",
+      "Epoch 2/10\n",
+      "478/478 [==============================] - 160s 335ms/step - loss: 0.3865 - accuracy: 0.8438 - val_loss: 0.9896 - val_accuracy: 0.7477\n",
+      "Epoch 3/10\n",
+      "478/478 [==============================] - 143s 300ms/step - loss: 0.2887 - accuracy: 0.8876 - val_loss: 0.3464 - val_accuracy: 0.8398\n",
+      "Epoch 4/10\n",
+      "478/478 [==============================] - 160s 335ms/step - loss: 0.2610 - accuracy: 0.8973 - val_loss: 0.4277 - val_accuracy: 0.8580\n",
+      "Epoch 5/10\n",
+      "478/478 [==============================] - 168s 352ms/step - loss: 0.2448 - accuracy: 0.9014 - val_loss: 0.2462 - val_accuracy: 0.8872\n",
+      "Epoch 6/10\n",
+      "478/478 [==============================] - 149s 311ms/step - loss: 0.2249 - accuracy: 0.9117 - val_loss: 0.2866 - val_accuracy: 0.8604\n",
+      "Epoch 7/10\n",
+      "478/478 [==============================] - 174s 364ms/step - loss: 0.2206 - accuracy: 0.9138 - val_loss: 0.2732 - val_accuracy: 0.8457\n",
+      "Epoch 8/10\n",
+      "478/478 [==============================] - 143s 300ms/step - loss: 0.2127 - accuracy: 0.9152 - val_loss: 0.4835 - val_accuracy: 0.8456\n",
+      "Epoch 9/10\n",
+      "478/478 [==============================] - 162s 339ms/step - loss: 0.2158 - accuracy: 0.9155 - val_loss: 0.7400 - val_accuracy: 0.8844\n",
+      "Epoch 10/10\n",
+      "478/478 [==============================] - 146s 306ms/step - loss: 0.2018 - accuracy: 0.9242 - val_loss: 0.4115 - val_accuracy: 0.8604\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "<keras.callbacks.callbacks.History at 0x18a77f85b38>"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "print(x_train.class_indices)\n",
+    "weed.fit_generator(x_train,samples_per_epoch = 15326,epochs=10,validation_data=x_test,nb_val_samples=337)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "weed.save('model1.h5')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.3"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
