@@ -28,6 +28,8 @@ print(x_train.class_indices)
 weed.fit_generator(x_train,samples_per_epoch = 15326,epochs=10,validation_data=x_test,nb_val_samples=337)
 weed.save('model1.h5')
 
+#prediction
+
 from keras.models import load_model
 import numpy as np
 model=load_model('model1.h5')
