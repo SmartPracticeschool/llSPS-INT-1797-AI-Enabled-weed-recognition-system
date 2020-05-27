@@ -1,1 +1,19 @@
+We get the dataset from kaggle - a friendly website for data scientists
+You can search for the below link to get our data sets
 
+https://www.kaggle.com/fpeccia/weed-detection-in-soybean-crops
+
+our project datasets has the following structure
+
+train folder/test folder
+  sesamecrop
+  soyabeancrop
+  weeds
+    broadleaf
+    soil
+    grass
+    otherweeds
+  
+
+trainfolder-70% of dataset
+testfolder-30% of dataset
