@@ -1,0 +1,17 @@
+You can get the project main folders from this google drive link
+https://drive.google.com/open?id=1MpWbJE3P_DpEe49ph98iU7_b8iSxeKOP
+you can download this zip file and extract it and use it.
+
+Folder structure
+  static
+    css
+      .css file
+    js
+      .js file
+  templates
+    base.html
+  uploads
+    images for testing
+  app.py
+  model1.h5
+  CNNpredictionmodel.ipynb
