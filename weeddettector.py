@@ -30,23 +30,9 @@ weed.save('model1.h5')
 
 from keras.models import load_model
 import numpy as np
-import cv2
-weed=load_model('model1.h5')
-weed.compile(optimizer='adam',loss='categorical_crossentropy',metrics=['accuracy'])
-from skimage.transform import resize
-def detect(frame):
-    try:
-        im=resize(frame,(64,64))
-        im=np.expand_dims(im,axis=0)
-        if(np.max(im)>1):
-            im=im/255.0
-        pred=weed.predict(im)
-        print(pred)
-        pred_cl=weed.predict_classes(im)
-        print(pred_cl)
-    except AttributeError:
-        print('shape not found')
-        
-        
-frame=cv2.imread('1147.tif')
-data=detect(frame)
+model=load_model('model1.h5')
+img=image.load_img(r"C:\Users\sys\Desktop\sea.jpeg" ,target_size =(64,64))
+x=image.img_to_array(img)
+x=np.expand_dims(x,axis=0)
+pred=model.predict_classes(x)
+pred
