@@ -1,5 +1,6 @@
 You can get the project main folders from this google drive link
-https://drive.google.com/open?id=1MpWbJE3P_DpEe49ph98iU7_b8iSxeKOP
+https://drive.google.com/file/d/1WNg3Qs13HNc6wFgu4_g1W8_2eeubtfbs/view?usp=sharing
+
 you can download this zip file and extract it and use it.
 
 Folder structure
@@ -14,4 +15,4 @@ Folder structure
     images for testing
   app.py
   model1.h5
-  CNNpredictionmodel.ipynb
+  CNNpredictionmodel.py
