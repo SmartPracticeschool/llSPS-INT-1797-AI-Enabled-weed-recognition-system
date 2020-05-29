@@ -1,3 +1,5 @@
+Importing libraries and initialize the model
+
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import Conv2D
