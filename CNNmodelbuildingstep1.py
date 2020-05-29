@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on sun May 24 09:26:26 2020
-
-@author: sys
-"""
+CNN model building step1
 
 from keras.preprocessing.image import ImageDataGenerator
 train_data=ImageDataGenerator(rescale=1./255,shear_range=0.2,zoom_range=0.2,horizontal_flip=True)
